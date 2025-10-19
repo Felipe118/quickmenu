@@ -5,7 +5,11 @@ export default {
         return api.post('/login', data)
     },
 
-    Logout() {
+    logout() {
         return api.post('/logout')
+    },
+    
+    register(data) {
+        return api.post('/register', data)
     }
 }

@@ -7,6 +7,11 @@ const routes = [
     component: () => import('@/admin/pages/intro/Intro.vue'),
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/admin/pages/auth/Register.vue'),
+  },
+  {
     path: '/login',
     component: () => import('@/admin/components/AuthLayout.vue'),
     children: [
@@ -15,6 +20,7 @@ const routes = [
         name: 'Login',
         component: () => import('@/admin/pages/auth/Login.vue'),
       },
+     
     ],
   },
    {
@@ -35,13 +41,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
- 
   console.log(to)
 
   if (to.meta.requiresAuth && (!token || token == 'undefined')) {
+    console.log('requiresAuth')
     next('/login')
   } else if (to.path === '/login' && token) {
-    next('/app') // se já estiver logado, não volta pro login
+    console.log('login')
+    next('/app')
   } else {
     next()
   }

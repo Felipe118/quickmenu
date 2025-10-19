@@ -112,7 +112,7 @@
             <p class="text-sm text-gray-600">
               Não possui uma conta ?
               <button
-                @click=""
+                @click="router.push('/register')"
                 class="font-medium text-blue-600 hover:text-blue-500 ml-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Registre-se
@@ -140,6 +140,7 @@ import { Eye,EyeOff  } from 'lucide-vue-next';
 import authService from '@/services/authService';
 import addresApi from '@/services/address/addresApi';
 import router from '@/router';
+import api from '@/services/api';
 
 // Reactive form data
 const form = reactive({
@@ -160,30 +161,27 @@ const togglePassword = () => {
 }
 
 const signInWithGoogle = () => {
-  // Implementar login com Google
   console.log('Sign in with Google')
 }
 
 const signInWithX = () => {
-  // Implementar login com X (Twitter)
   console.log('Sign in with X')
 }
 
 const handleLogin = async () => {
     
-  await authService.login(form, { withCredentials: true }).then((response) => {
-    console.log(response.data)
-    localStorage.setItem('token', response.data.access_token)
+  await authService.login(form).then(async (response) => {
+    
+    const token = response.data.access_token
+    localStorage.setItem('token', token)
+
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
     router.push('/app')
   })
   .catch((error) => {
       errorMessage.value = error.response?.data.message
   })
 
-}
-
-const Test = async () => {
-  const address = await addresApi.getAddress(1, { withCredentials: true, withXSRFToken: true });
-  console.log(address)
 }
 </script>
