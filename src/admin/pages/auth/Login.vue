@@ -112,7 +112,7 @@
             <p class="text-sm text-gray-600">
               Não possui uma conta ?
               <button
-                @click="Test()"
+                @click=""
                 class="font-medium text-blue-600 hover:text-blue-500 ml-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Registre-se
@@ -139,6 +139,7 @@ import { ref, reactive } from 'vue'
 import { Eye,EyeOff  } from 'lucide-vue-next';
 import authService from '@/services/authService';
 import addresApi from '@/services/address/addresApi';
+import router from '@/router';
 
 // Reactive form data
 const form = reactive({
@@ -170,15 +171,14 @@ const signInWithX = () => {
 
 const handleLogin = async () => {
     
-
-     const token = await authService.login(form, { withCredentials: true }).then((response) => {
-         return response.headers['x-xsrf-token']
-     })
-     .catch((error) => {
-         errorMessage.value = error.response?.data.message
-      })
-
-    console.log('CSRF Cookie obtido:', token)
+  await authService.login(form, { withCredentials: true }).then((response) => {
+    console.log(response.data)
+    localStorage.setItem('token', response.data.access_token)
+    router.push('/app')
+  })
+  .catch((error) => {
+      errorMessage.value = error.response?.data.message
+  })
 
 }
 

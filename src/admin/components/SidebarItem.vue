@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, useSlots } from 'vue'
 
 const props = defineProps({
   title: String,
@@ -30,10 +30,12 @@ const props = defineProps({
 })
 
 const open = ref(false)
+const slots = useSlots() // pegue os slots uma vez
+
+const hasSlot = () => !!slots.submenu // true se existir
+
 const toggle = () => {
   if (!hasSlot()) return
   open.value = !open.value
 }
-
-const hasSlot = () => !!useSlots().submenu
 </script>
