@@ -8,6 +8,10 @@ export default {
     logout() {
         return api.post('/logout')
     },
+
+    me() {
+        return api.get('/me')
+    },
     
     register(data) {
         return api.post('/register', data)

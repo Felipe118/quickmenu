@@ -23,13 +23,16 @@ const routes = [
      
     ],
   },
-   {
+  {
     path: '/app',
     component: () => import('@/admin/components/Layout.vue'),
     meta: { requiresAuth: true },
     children: [
       { path: '',  component: () => import('../admin/pages/dash/Dashboard.vue') },
-      { path: 'user', component: () => import('../admin/pages/dash/UserProfile.vue') },
+      { path: 'restaurante', component: () => import('../admin/pages/dash/UserProfile.vue') },
+      { path: 'restaurante/cadastro', component: () => import('../admin/pages/dash/restaurante/Cadastro.vue') },
+      { path: 'restaurante/listagem', component: () => import('../admin/pages/dash/restaurante/Listagem.vue') },
+      { path: 'restaurante/no-restaurant', component: () => import('../admin/pages/dash/BemVindo.vue') },
     ]
   },
 ]
@@ -41,17 +44,25 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  console.log(to)
 
-  if (to.meta.requiresAuth && (!token || token == 'undefined')) {
-    console.log('requiresAuth')
-    next('/login')
-  } else if (to.path === '/login' && token) {
-    console.log('login')
-    next('/app')
-  } else {
-    next()
+  const isAuthenticated = token && token !== 'undefined'
+  console.log('to',to)
+
+   // 🔒 Rotas que exigem autenticação
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    console.log('🔒 Redirecionando para /login (sem token)')
+    return next('/login')
   }
+
+  // 🚫 Evita acessar /login se já está autenticado
+  if ((to.path === '/login' || to.name === 'login') && isAuthenticated) {
+    console.log('✅ Já autenticado, indo para /app')
+    return next('/app')
+  }
+
+  // ✅ Caso padrão
+  console.log('➡️ Continuando para', to.path)
+  next()
 })
 
 export default router

@@ -7,7 +7,7 @@ const api = axios.create({
 
 const token = localStorage.getItem('token')
 
-console.log(token ?? token == 'undefined')
+console.log(token)
 
 if (token && token !== 'undefined' && token !== 'null') {
   api.defaults.headers.common['Authorization'] = `Bearer ${token}`
