@@ -2,6 +2,24 @@
 
 const auth = useAuthStore()
 
+const user = auth.user
+
+const perfil = userPerfil(user?.roles[0])
+
+function userPerfil(role: string|undefined){
+
+  if(role === 'admin_master'){
+    return 'Administrador Master'
+  }
+
+  if(role === 'admin_restaurant'){
+    return 'Administrador Restaurante'
+  }
+
+  return 'Usuário'
+  
+}
+
 const logout = () => {
   auth.logout()
 }
@@ -13,7 +31,6 @@ const logout = () => {
       class="cursor-pointer"
       color="info"
     >
-      <!-- <VImg :src="avatar1" /> -->
       <span class="text-headline-small">CJ</span>
       <VMenu
         activator="parent"
@@ -37,16 +54,15 @@ const logout = () => {
                     color="primary"
                     variant="tonal"
                   >
-                    <!-- <VImg :src="avatar1" /> -->
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
             </template>
 
-            <VListItemTitle class="font-weight-semibold">
-              John Doe
+            <VListItemTitle class="">
+              {{ user?.name }}
             </VListItemTitle>
-            <VListItemSubtitle>Admin</VListItemSubtitle>
+            <VListItemSubtitle>{{perfil}}</VListItemSubtitle>
           </VListItem>
 
           <VDivider class="my-2" />

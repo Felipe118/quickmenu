@@ -7,7 +7,6 @@ const DefaultLayoutWithHorizontalNav = defineAsyncComponent(() => import('./comp
 const DefaultLayoutWithVerticalNav = defineAsyncComponent(() => import('./components/DefaultLayoutWithVerticalNav.vue'))
 
 const configStore = useConfigStore()
-const toastRef = ref(null)
 // ℹ️ This will switch to vertical nav when define breakpoint is reached when in horizontal nav layout
 // Remove below composable usage if you are not using horizontal nav layout in your app
 switchToVerticalNavOnLtOverlayNavBreakpoint()
@@ -18,7 +17,6 @@ injectSkinClasses()
 </script>
 
 <template>
-  <AppToast ref="toastRef" />
   <Component
     v-bind="layoutAttrs"
     :is="configStore.appContentLayoutNav === AppContentLayoutNav.Vertical ? DefaultLayoutWithVerticalNav : DefaultLayoutWithHorizontalNav"

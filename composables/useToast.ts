@@ -1,11 +1,13 @@
 // composables/useToast.js
-import { ref } from 'vue'
-
-const toast = ref(null)
+import { useToast as useVueToast } from 'vue-toastification'
 
 export function useToast() {
+  const toast = useVueToast()
+
   return {
-    setInstance: (instance:any) => (toast.value = instance),
-    show: (msg:string, type:any) => toast.value?.open(msg, type)
+    success: (message: string) => toast.success(message),
+    error: (message: string) => toast.error(message),
+    warning: (message: string) => toast.warning(message),
+    info: (message: string) => toast.info(message),
   }
 }

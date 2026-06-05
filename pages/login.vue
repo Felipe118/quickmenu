@@ -5,7 +5,7 @@ import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 
-const { show } = useToast()
+const toast = useToast()
 
 definePageMeta({
   layout: 'blank',
@@ -31,7 +31,7 @@ const handleLogin = async () => {
   const result = await auth.login(form.value);
 
   if (result?.error) {
-    show(handleError(result.error), 'error')
+    toast.success(handleError(result.error), 'error')
     
     return
   }
@@ -70,14 +70,6 @@ const isPasswordVisible = ref(false)
           style="padding-inline: 6.25rem;"
         >
         </div>
-
-        <!-- <img
-          class="auth-footer-mask flip-in-rtl"
-          :src="authThemeMask"
-          alt="auth-footer-mask"
-          height="280"
-          width="100"
-        > -->
       </div>
     </VCol>
 
@@ -147,31 +139,6 @@ const isPasswordVisible = ref(false)
                   Entrar
                 </VBtn>
               </VCol>
-
-              <!-- create account -->
-              <!-- <VCol
-                cols="12"
-                class="text-body-1 text-center"
-              >
-                <span class="d-inline-block">
-                  New on our platform?
-                </span>
-                <a
-                  class="text-primary ms-1 d-inline-block text-body-1"
-                  href="javascript:void(0)"
-                >
-                  Create an account
-                </a>
-              </VCol>
-
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
-                <VDivider />
-                <span class="mx-4">or</span>
-                <VDivider />
-              </VCol> -->
 
               <!-- auth providers -->
               <VCol

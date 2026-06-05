@@ -2,7 +2,9 @@
 import type { LoginCredentials, ResponseLogin, UserData } from '@/types/auth'
 import { authService } from '@/utils/api/authService'
 import { defineStore } from 'pinia'
-import { useToast } from 'vue-toastification'
+import { useToast } from '~/composables/useToast'
+
+const toast = useToast()
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -16,7 +18,8 @@ export const useAuthStore = defineStore('auth', {
     getters: {
         isAuthenticated: state => !!state.token,
         hasMultippleRestaurants: (state) =>
-            (state.user?.restaurants?.length ?? 0) > 1
+            (state.user?.restaurants?.length ?? 0) > 1,
+        handleUser: (state) => state.user
     },
 
     actions: {
@@ -29,19 +32,21 @@ export const useAuthStore = defineStore('auth', {
             this.loading = true
 
             try{
-                    const response = await authService.login<ResponseLogin>(credentials)
-                    console.log(response.access_token)
+                const response = await authService.login<ResponseLogin>(credentials)
+                console.log(response.access_token)
 
-                    this.setToken(response.access_token)
+                this.setToken(response.access_token)
 
-                    this.isAuthenticated = true
+                this.isAuthenticated = true
 
-                    await this.fetchUser(true)
+                await this.fetchUser(true)
+
+                toast.success('Login realizado com sucesso')
                     
             }catch(error){
-                    const message = handleError(error)
-                    useToast().error(message || 'Ops, algo deu errado , tente novamente')
-                    console.log(message)
+                const message = handleError(error)
+                toast.error(message || 'Ops, algo deu errado , tente novamente')
+                console.log(message)
             }finally {
                 this.loading = false
             }
@@ -73,10 +78,11 @@ export const useAuthStore = defineStore('auth', {
                 this.user = null
                 this.isAuthenticated = false
                 this.initialized = false
-
+                
+                toast.success('Logout realizado com sucesso')
             }catch(error){
                 const message = handleError(error)
-                useToast().error(message || 'Ops, algo deu errado , tente novamente')
+                toast.error(message || 'Ops, algo deu errado , tente novamente')
                 console.log(message)
             }
         },
@@ -89,7 +95,7 @@ export const useAuthStore = defineStore('auth', {
                 this.setUser(response)
             }catch(error){
                 const message = handleError(error)
-                useToast().error(message || 'Ops, algo deu errado , tente novamente')
+                toast.error(message || 'Ops, algo deu errado , tente novamente')
                 console.log(message)
             }
         },

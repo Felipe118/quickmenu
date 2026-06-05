@@ -1,5 +1,7 @@
 import { useAuthStore } from '@/stores/auth'
 
+const toast = useToast()
+
 export const $api = $fetch.create({
   async onRequest({ options }) {
     options.baseURL = useRuntimeConfig().public.apiBaseUrl || '/api'
@@ -25,7 +27,7 @@ export const $api = $fetch.create({
       const currentRoute = useRoute()
       
       if (!currentRoute.path.includes('/login')) {
-        console.log('Token expirado, deslogando...')
+        toast.warning('Token expirado, deslogando...')
         await auth.logout()
         navigateTo('/login')
       }
