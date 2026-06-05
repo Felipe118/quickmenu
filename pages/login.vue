@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAfterLogin } from '@/composables/useAfterLogin'
 import { useToast } from '@/composables/useToast'
 import type { LoginCredentials } from '@/types/auth'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
@@ -30,6 +31,8 @@ const handleLogin = async () => {
 
   const result = await auth.login(form.value);
 
+  const { redirectUser } = useAfterLogin()
+
   if (result?.error) {
     toast.success(handleError(result.error), 'error')
     
@@ -38,8 +41,7 @@ const handleLogin = async () => {
 
   console.log(result);
 
-  navigateTo('/')
-  
+  await redirectUser()
 }
 
 const isPasswordVisible = ref(false)

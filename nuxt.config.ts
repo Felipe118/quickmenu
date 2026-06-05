@@ -12,8 +12,8 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      titleTemplate: '%s - NuxtJS Admin Template',
-      title: 'Vuexy',
+      titleTemplate: '%s - Gerenciador de cardápios',
+      title: 'Quickmenu',
 
       link: [{
         rel: 'icon',
