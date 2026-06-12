@@ -15,6 +15,8 @@ export const authService = {
   },
 
   async me() {
-    return $api<UserData>('/me')
+    return $api<UserData>('/me', {
+      method: 'GET'
+    })
   },
 }

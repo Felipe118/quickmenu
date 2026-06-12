@@ -33,7 +33,6 @@ export const useAuthStore = defineStore('auth', {
 
             try{
                 const response = await authService.login<ResponseLogin>(credentials)
-                console.log(response.access_token)
 
                 this.setToken(response.access_token)
 
@@ -96,7 +95,6 @@ export const useAuthStore = defineStore('auth', {
             }catch(error){
                 const message = handleError(error)
                 toast.error(message || 'Ops, algo deu errado , tente novamente')
-                console.log(message)
             }
         },
         

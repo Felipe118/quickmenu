@@ -39,8 +39,6 @@ const handleLogin = async () => {
     return
   }
 
-  console.log(result);
-
   await redirectUser()
 }
 

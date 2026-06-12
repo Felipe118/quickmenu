@@ -10,26 +10,10 @@ body {
 }
 
 .layout-page-content {
-  @include mixins.boxed-content(true);
+  @include mixins.boxed-content(false);
 
   flex-grow: 1;
 
-  // TODO: Use grid gutter variable here
-  padding-block: 1.5rem;
+  padding-top: 1rem;
 }
 
-.layout-footer {
-  .footer-content-container {
-    block-size: variables.$layout-vertical-nav-footer-height;
-  }
-
-  .layout-footer-sticky & {
-    position: sticky;
-    inset-block-end: 0;
-    will-change: transform;
-  }
-
-  .layout-footer-hidden & {
-    display: none;
-  }
-}

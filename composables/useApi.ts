@@ -7,10 +7,13 @@ export const useApi: typeof useFetch = <T>(url: MaybeRefOrGetter<string>, option
 
   const defaults: UseFetchOptions<T> = {
     baseURL: config.public.apiBaseUrl,
-    headers: accessToken.value ? { Authorization: `Bearer ${accessToken.value}` } : {},
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        ...(accessToken.value ? { Authorization: `Bearer ${accessToken.value}` } : {})
+      },
   }
 
-  // for nice deep defaults, please use unjs/defu
   const params = defu(options, defaults)
 
   return useFetch(url, params)

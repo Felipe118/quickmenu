@@ -139,36 +139,12 @@ const verticalNavAttrs = computed(() => {
     .navbar-content-container {
       block-size: variables.$layout-vertical-nav-navbar-height;
     }
-
-    @at-root {
-      .layout-wrapper.layout-nav-type-vertical {
-        .layout-navbar {
-          @if variables.$layout-vertical-nav-navbar-is-contained {
-            @include mixins.boxed-content;
-          }
-          /* stylelint-disable-next-line @stylistic/indentation */
-          @else {
-            .navbar-content-container {
-              @include mixins.boxed-content;
-            }
-          }
-        }
-      }
-    }
   }
-
-  &.layout-navbar-sticky .layout-navbar {
-    @extend %layout-navbar-sticky;
-  }
-
+  
   &.layout-navbar-hidden .layout-navbar {
     @extend %layout-navbar-hidden;
   }
 
-  // 👉 Footer
-  .layout-footer {
-    @include mixins.boxed-content;
-  }
 
   // 👉 Layout overlay
   .layout-overlay {
@@ -199,20 +175,6 @@ const verticalNavAttrs = computed(() => {
   &.layout-content-height-fixed {
     .layout-content-wrapper {
       max-block-size: 100dvh;
-    }
-
-    .layout-page-content {
-      display: flex;
-      overflow: hidden;
-
-      .page-content-container {
-        inline-size: 100%;
-
-        > :first-child {
-          max-block-size: 100%;
-          overflow-y: auto;
-        }
-      }
     }
   }
 }
