@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { useAfterLogin } from '@/composables/useAfterLogin'
-import { useToast } from '@/composables/useToast'
 import type { LoginCredentials } from '@/types/auth'
 import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
-
-const toast = useToast()
 
 definePageMeta({
   layout: 'blank',
@@ -29,15 +26,9 @@ const handleLogin = async () => {
   if (!valid)
     return
 
-  const result = await auth.login(form.value);
+  await auth.login(form.value);
 
   const { redirectUser } = useAfterLogin()
-
-  if (result?.error) {
-    toast.success(handleError(result.error), 'error')
-    
-    return
-  }
 
   await redirectUser()
 }

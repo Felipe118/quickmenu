@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
                     
             }catch(error){
                 const message = handleError(error)
-                toast.error(message || 'Ops, algo deu errado , tente novamente')
+                toast.error(message)
                 console.log(message)
             }finally {
                 this.loading = false

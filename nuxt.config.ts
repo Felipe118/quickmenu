@@ -28,8 +28,6 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  ssr: false,
-
   css: [
     '@core/scss/template/index.scss',
     '@styles/styles.scss',
