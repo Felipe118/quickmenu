@@ -17,3 +17,4 @@ export interface Restaurant {
     address_id: number
     slug: string
 }
+
