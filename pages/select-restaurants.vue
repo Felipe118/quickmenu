@@ -5,7 +5,7 @@ import { useToast } from '~/composables/useToast';
 
 definePageMeta({
   middleware: ['auth']
-})
+}) 
 
 const toast = useToast()
 
@@ -22,6 +22,7 @@ interface Pagination {
 const restaurantStore = useRestaurantStore()
 
 const restaurants = ref<Restaurant[]>([])
+const restaurant = ref<null | Restaurant>(null)
 
 const getRestaurants = async () => {
   await restaurantStore.fetchRestaurants()
@@ -68,6 +69,7 @@ const filteredRestaurants = computed(() => {
 
 function editar(item: Restaurant) {
   openDialog()
+  restaurant.value = item
   console.log('Editar', item)
 }
 
@@ -76,7 +78,13 @@ function excluir(item: Restaurant) {
 }
 
 function openDialog() {
+  console.log('openDialog', isDialogVisible.value)
   isDialogVisible.value = true
+}
+
+function closeDialog() {
+  console.log('openDialog', isDialogVisible.value)
+  isDialogVisible.value = false
 }
 
 async function toggleStatus(item: Restaurant) {
@@ -86,6 +94,7 @@ async function toggleStatus(item: Restaurant) {
     toast.success(res?.data?.value?.message ?? 'Restaurante desativado com sucesso!')
   })
 }
+
 </script>
 
 <template>
@@ -152,8 +161,11 @@ async function toggleStatus(item: Restaurant) {
           />
         </div>
 
-        <UpdateRestaurant
+        <EditRestaurant
+          v-if="restaurant"
           :is-dialog-visible="isDialogVisible"
+          :restaurant="restaurant"
+          @update:isDialogVisible="closeDialog"
         />
       </VCard>
     </VCol>

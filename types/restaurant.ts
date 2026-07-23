@@ -4,6 +4,18 @@ export interface RestaurantMe {
     status: boolean
 }
 
+export interface Address {
+    address_name: string;
+    number: string;
+    complement: string;
+    district: string;
+    city: string;
+    state: string;
+    cep: string;
+    quatrain: string;
+    neighborhood: string;
+}
+
 export interface Restaurant {
     id: number
     name: string
@@ -16,5 +28,6 @@ export interface Restaurant {
     active: boolean
     address_id: number
     slug: string
+    address: Address
 }
 
