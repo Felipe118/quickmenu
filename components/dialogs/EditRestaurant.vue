@@ -1,25 +1,37 @@
 <script setup lang="ts">
 import type { Restaurant } from "@/types/restaurant";
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 interface Props {
   isDialogVisible: boolean,
-  restaurant: Restaurant|null
+  restaurant: Restaurant
 }
+
+interface Emit {
+  (e: 'update:isDialogVisible', value: boolean): void
+  (e: 'update:restaurant',restaurant: Restaurant): void
+}
+
+const localRestaurant = ref<Restaurant | null>(null)
 
 const unsubscribed = ref(false)
 const cancelled = ref(false)
 const props = defineProps<Props>()
 
-  console.log('props', props .restaurant)
+  console.log('props', props.restaurant)
 const emit = defineEmits<Emit>()
 
-const updateModelValue = (val: boolean) => {
+const updateModal = (val: boolean) => {
   emit('update:isDialogVisible', val)
 }
 
-interface Emit {
-  (e: 'update:isDialogVisible', value: boolean): void
+const updateModelValue = (res: Restaurant) => {
+  emit('update:restaurant', res)
+}
+
+
+function onSubmit(){
+  console.log('onSubmit', props.restaurant)
 }
 
 </script>
@@ -29,7 +41,7 @@ interface Emit {
     max-width="1280"
     min-height="800"
     :model-value="props.isDialogVisible"
-    @update:model-value="updateModelValue"
+    @update:model-value="updateModal"
   >
     <VCard class="text-left px-10 py-6">
       <h1 class="font-weight-bold pb-4">
@@ -39,7 +51,7 @@ interface Emit {
       <VRow>
         <VCol class="mt-4" cols="12" md="6" lg="6">
           <VTextField
-            :model-value="props.restaurant?.name"
+            v-model="props.restaurant.name "
             label="Nome do Restaurante"
             variant="outlined"
           />
@@ -47,7 +59,7 @@ interface Emit {
 
         <VCol class="mt-4" cols="12" md="6">
           <VTextField
-            :model-value="props.restaurant?.slug"
+            v-model="props.restaurant.slug"
             label="Slug"
             variant="outlined"
           />
@@ -103,15 +115,17 @@ interface Emit {
             variant="outlined"
           />
         </VCol>
-
-        <VCol cols="12" md="2">
+        <AddressForm 
+          :address="props.restaurant?.address"
+        />
+        <!-- <VCol cols="12" md="2">
           <VTextField
             :model-value="props.restaurant?.address?.cep"
             label="CEP"
             variant="outlined"
           />
         </VCol>
-         <VCol cols="12" md="2">
+        <VCol cols="12" md="2">
           <VTextField
             :model-value="props.restaurant?.address?.number"
             label="Numero"
@@ -138,12 +152,12 @@ interface Emit {
             label="Bairro"
             variant="outlined"
           />
-        </VCol>
+        </VCol> -->
       </VRow>
       <VCardText class="d-flex align-center justify-center gap-2">
         <VBtn
           variant="outlined"
-          @click=""
+          @click="onSubmit"
         >
           Editar
         </VBtn>
@@ -151,7 +165,7 @@ interface Emit {
         <VBtn
           color="secondary"
           variant="tonal"
-          @click="updateModelValue(false)"
+          @click="updateModal(false)"
         >
           Cancelar
         </VBtn>

@@ -7,20 +7,21 @@ export interface RestaurantMe {
 export interface Address {
     address_name: string;
     number: string;
-    complement: string;
-    district: string;
+    id: number;
+    complement?: string;
+    district?: string;
     city: string;
     state: string;
     cep: string;
-    quatrain: string;
-    neighborhood: string;
+    quatrain?: string;
+    neighborhood?: string;
 }
 
 export interface Restaurant {
     id: number
     name: string
-    perfil_img: string
-    capa_img: string
+    perfil_img?: File
+    capa_img?: File
     email: string
     open_time: string
     close_time: string

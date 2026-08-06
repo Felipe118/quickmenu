@@ -1,3 +1,4 @@
+import type { RestaurantFormData } from "@/schemas/restaurant";
 import type { PaginatedResponse } from "@/types/paginate";
 import type { Restaurant } from "@/types/restaurant";
 import { restaurantService } from "@/utils/api/restaurantService";
@@ -11,6 +12,7 @@ export const useRestaurantStore = defineStore("restaurant", {
     state: () => ({
         restaurant: null as Restaurant|null,
         restaurants: null as PaginatedResponse<Restaurant> | null,
+        loading: false
     }),
     getters: {
         getRestaurant: (state) => state.restaurant,
@@ -19,8 +21,7 @@ export const useRestaurantStore = defineStore("restaurant", {
     actions: {
         async fetchRestaurant(restaurantId:number) {
             try{
-                const { data } =
-                await restaurantService.getRestaurant(restaurantId);
+                const { data } = await restaurantService.getRestaurant(restaurantId);
 
                 this.restaurant = data.value ?? null;
             }catch(error){
@@ -49,6 +50,27 @@ export const useRestaurantStore = defineStore("restaurant", {
                 const message = handleError(error)
                 toast.error(message || 'Ops, algo deu errado , tente novamente')
             }
-        }
+        },
+
+        async updateRestaurant(restaurantId: number, formData: RestaurantFormData) {
+            this.loading = true
+
+            try{
+                const { error } = await restaurantService.updateRestaurant(restaurantId, formData)
+
+                if (error.value) {
+                    const message = handleError(error.value)
+                    toast.error(message || 'Ops, algo deu errado , tente novamente')
+                    return
+                }
+
+                toast.success('Restaurante atualizado com sucesso!')
+            }catch(error){
+                const message = handleError(error)
+                toast.error(message || 'Ops, algo deu errado , tente novamente')
+            }finally{
+                this.loading = false
+            }
+        },
     },
 });

@@ -18,7 +18,6 @@ interface Pagination {
   total: number
 }
 
-
 const restaurantStore = useRestaurantStore()
 
 const restaurants = ref<Restaurant[]>([])
@@ -68,9 +67,10 @@ const filteredRestaurants = computed(() => {
 })
 
 function editar(item: Restaurant) {
-  openDialog()
-  restaurant.value = item
+  // openDialog()
+  // restaurant.value = item
   console.log('Editar', item)
+  navigateTo(`/restaurant/${item.id}`)
 }
 
 function excluir(item: Restaurant) {
@@ -85,6 +85,10 @@ function openDialog() {
 function closeDialog() {
   console.log('openDialog', isDialogVisible.value)
   isDialogVisible.value = false
+}
+
+function teste(item: Restaurant) {
+  console.log('teste', item)
 }
 
 async function toggleStatus(item: Restaurant) {
@@ -166,6 +170,7 @@ async function toggleStatus(item: Restaurant) {
           :is-dialog-visible="isDialogVisible"
           :restaurant="restaurant"
           @update:isDialogVisible="closeDialog"
+          @update:restaurant="teste"
         />
       </VCard>
     </VCol>

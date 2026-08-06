@@ -45,7 +45,6 @@ export const useAuthStore = defineStore('auth', {
             }catch(error){
                 const message = handleError(error)
                 toast.error(message)
-                console.log(message)
             }finally {
                 this.loading = false
             }
@@ -79,9 +78,10 @@ export const useAuthStore = defineStore('auth', {
                 this.initialized = false
                 
                 toast.success('Logout realizado com sucesso')
+                navigateTo('/login')
             }catch(error){
                 const message = handleError(error)
-                toast.error(message || 'Ops, algo deu errado , tente novamente')
+                toast.error('Ops, algo deu errado , tente novamente')
                 console.log(message)
             }
         },
@@ -94,7 +94,7 @@ export const useAuthStore = defineStore('auth', {
                 this.setUser(response)
             }catch(error){
                 const message = handleError(error)
-                toast.error(message || 'Ops, algo deu errado , tente novamente')
+                toast.error('Ops, algo deu errado , tente novamente')
             }
         },
         
@@ -114,7 +114,6 @@ export const useAuthStore = defineStore('auth', {
                 await this.fetchUser()
             } catch {
                 await this.logout()
-                console.log('bugou aqui')
             }
 
             this.initialized = true

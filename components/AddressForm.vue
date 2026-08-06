@@ -1,49 +1,44 @@
 <script setup lang="ts">
+import type { Address } from "@/types/restaurant";
 
-interface Address {
-    cep: string,
-    number: string,
-    address_name: string,
-    complement: string,
-    neighborhood: string
+interface Props {
+    address: Address|undefined
 }
-
-const address = defineModel<Address>()
-
+const address = defineProps<Props>()
 </script>
 <template>
   <VRow>
     <VCol cols="12" md="2">
         <VTextField
-            v-model="address?.cep"
+            :model-value="address?.address?.cep"
             label="CEP"
             variant="outlined"
         />
     </VCol>
     <VCol cols="12" md="2">
         <VTextField
-            v-model="address?.number"
+            :model-value="address?.number"
             label="Numero"
             variant="outlined"
         />
     </VCol>
     <VCol cols="12" md="8">
         <VTextField
-            v-model="address?.address_name"
+            :model-value="address?.address_name"
             label="Endereço"
             variant="outlined"
         />
     </VCol>
     <VCol cols="12" md="6">
         <VTextField
-            v-model="address?.complement"
+            :model-value="address?.complement"
             label="Complemento"
             variant="outlined"
         />
     </VCol>
     <VCol cols="12" md="6">
         <VTextField
-            v-model="address?.neighborhood"
+            :model-value="address?.neighborhood"
             label="Bairro"
             variant="outlined"
         />
